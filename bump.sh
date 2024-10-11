@@ -12,7 +12,7 @@ dependency_name=$2
 new_version=$3
 
 # Find package.json files in the root of each microservice, excluding node_modules and nested directories
-find "$monorepo_root" -mindepth 2 -maxdepth 2 -type f -name "package.json" -not -path "*/node_modules/*" | while read -r package_json; do
+find "$monorepo_root" -mindepth 1 -maxdepth 2 -type f -name "package.json" -not -path "*/node_modules/*" | while read -r package_json; do
   echo "Updating $dependency_name to version $new_version in $package_json"
 
   # Update the dependency version using jq
