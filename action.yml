@@ -1,0 +1,53 @@
+name: Bump dependencies
+description: "Bump a package with ease in JavaScript/TypeScript monorepo"
+author: 'Samir Silwal'
+
+inputs:
+  monorepo-root:
+    description: "Root directory of the monorepo"
+    required: true
+  name:
+    description: "Name of the package to bump"
+    required: true
+  version:
+    description: "Version to bump to"
+    required: false
+    default: "1.0.0"
+  token:
+    description: "GITHUB_TOKEN or a repo scoped PATH"
+    required: false
+    default: ${{ github.token }}
+  create-pr:
+    description: "Your sonarqube server host URL"
+    required: false
+    default: "true"
+  base-branch:
+    description: "Base branch to create PR against"
+    required: false
+    default: "main"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Bump dependencies
+      run: |
+        ./action.sh ${{ inputs.monorepo-root }} ${{ inputs.name }} ${{ inputs.version }}
+
+    - name: Create Pull Request
+      id: cpr
+      if :  ${{ contains(inputs.create-pr, 'true') }}
+      uses: peter-evans/create-pull-request@v7
+      with:
+        token: ${{ inputs.token }}
+        commit-message: Update ${{ inputs.name }} to ${{ inputs.version }}
+        author: ${{ github.actor }} <${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com>
+        branch: fix/bump-${{ inputs.name }}-${{ inputs.version }}
+        delete-branch: true
+        base: ${{ inputs.base-branch }}
+        title: 'Bump ${{ inputs.name }} to ${{ inputs.version }}'
+        body: |
+          Bumps ${{ inputs.name }} to ${{ inputs.version }}.
+        assignees: ${{ github.actor }}
