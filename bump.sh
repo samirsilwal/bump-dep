@@ -27,12 +27,19 @@ cd $monorepo_root
 
 for d in */ ; do
     echo "Updating packages in $d"
-    
-    cd $d
 
-    yarn 
-    
-    echo "Completed Updating packages in $d"
+    if [ -d "$d" ]; then
+      cd $d
 
-    cd ..
+      yarn 
+    
+      echo "Completed Updating packages in $d"
+
+      cd ..  
+      
+    else
+      yarn && git status && echo "Completed Updating packages in $d"
+    fi
+    
+
 done
