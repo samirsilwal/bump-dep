@@ -9,7 +9,7 @@ Add the following in your workflow file
 ```
 
 - name: Bump package json
-  uses: samirsilwal/bump-dev@v1.0.0
+  uses: samirsilwal/bump-dep@v1.0.0
   with:
     monorepo-root: './src'
     name: 'chalk'
