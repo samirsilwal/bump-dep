@@ -51,6 +51,6 @@ jobs:
           monorepo-root: ${{ inputs.monorepo-root }}
           name: ${{ inputs.name }}
           version: ${{ inputs.version }}
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.SAM_TOKEN }}
           create-pr: ${{ inputs.create-pr }}
           base-branch: ${{ inputs.base-branch }}
