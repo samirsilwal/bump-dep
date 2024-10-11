@@ -1,17 +1,35 @@
 name: Bump
 
 on:
-  pull_request:
-    types: [opened, synchronize]
-    branches:
-      - main
+  workflow_dispatch:
+    inputs:
+      monorepo-root:
+        description: "Root directory of the monorepo"
+        required: true
+        default: "./src"
+      name:
+        description: "Name of the package to bump"
+        required: true
+        default: "chalk"
+      version:
+        description: "Version to bump to"
+        required: false
+        default: "5.2.0"
+      create-pr:
+        description: "Your sonarqube server host URL"
+        required: false
+        default: "true"
+      base-branch:
+        description: "Base branch to create PR against"
+        required: false
+        default: "main"
 
 defaults:
   run:
     working-directory: "./"
 
 jobs:
-  Publish:
+  bump-package:
     runs-on: ubuntu-latest
 
     steps:
@@ -30,9 +48,9 @@ jobs:
       - name: Bump
         uses: ./
         with:
-          monorepo-root: "./src"
-          name: "chalk"
-          version: "5.2.0"
+          monorepo-root: ${{ inputs.monorepo-root }}
+          name: ${{ inputs.name }}
+          version: ${{ inputs.version }}
           token: ${{ secrets.GITHUB_TOKEN }}
-          create-pr: "true"
-          base-branch: "main"
+          create-pr: ${{ inputs.create-pr }}
+          base-branch: ${{ inputs.base-branch }}
