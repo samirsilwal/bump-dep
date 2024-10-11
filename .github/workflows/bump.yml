@@ -1,0 +1,38 @@
+name: Bump
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+    branches:
+      - main
+
+defaults:
+  run:
+    working-directory: "./"
+
+jobs:
+  Publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node 20
+        uses: actions/setup-node@v4
+        with:
+          always-auth: true
+          node-version: "20"
+          registry-url: "https://npm.pkg.github.com"
+          cache: "yarn"
+          cache-dependency-path: "**/yarn.lock"
+
+      - name: Bump
+        uses: ./
+        with:
+          monorepo-root: "./src"
+          name: "chalk"
+          version: "5.2.0"
+          token: ${{ secrets.GITHUB_TOKEN }}
+          create-pr: "true"
+          base-branch: "main"
