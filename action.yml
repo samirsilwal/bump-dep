@@ -1,4 +1,4 @@
-name: Bump dependencies
+name: Auto Bump dependencies
 description: "Bump a package with ease in JavaScript/TypeScript monorepo"
 author: 'Samir Silwal'
 
