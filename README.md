@@ -73,3 +73,8 @@ jobs:
           create-pr: true
           base-branch: 'main'
 ```
+# Contributors
+
+<a href="https://github.com/samirsilwal/bump-dep/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=samirsilwal/bump-dep" />
+</a>
